@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Add Song - Music App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        input,
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+        }
+
+        input {
+            background: #2c2c2c;
+            color: white;
+        }
+
+        button {
+            background: #bb86fc;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #9c4dff;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        a {
+            text-align: center;
+            display: block;
+            color: #bb86fc;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>➕ Add a New Song</h1>
+    <form id="songForm">
+        <label for="title">Song Title</label>
+        <input type="text" id="title" placeholder="Song Title" required />
+
+        <label for="artist">Artist</label>
+        <input type="text" id="artist" placeholder="Artist" required />
+
+        <label for="genre">Genre</label>
+        <input type="text" id="genre" placeholder="Genre" required />
+
+        <label for="album">Album</label>
+        <input type="text" id="album" placeholder="Album" required />
+
+        <label for="url">Song URL</label>
+        <input type="text" id="url" placeholder="Enter song URL" value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" required />
+        <button type="submit">Add Song</button>
+    </form>
+    <div class="message" id="feedback"></div>
+    <a href="all_songs.html">🎵 View All Songs</a>
+
+    <script>
+        const form = document.getElementById("songForm");
+        const feedback = document.getElementById("feedback");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const title = document.getElementById("title").value.trim();
+            const artist = document.getElementById("artist").value.trim();
+            const genre = document.getElementById("genre").value.trim();
+            const album = document.getElementById("album").value.trim();
+            const url = document.getElementById("url").value.trim();
+
+            let username = localStorage.getItem("loggedIn");
+            if (!username) {
+                username = "testuser";
+                localStorage.setItem("loggedIn", username);
+            }
+
+            const allUsers = JSON.parse(localStorage.getItem("rennUsers") || "{}");
+            allUsers[username] = allUsers[username] || { songs: [] };
+            allUsers[username].songs.push({ title, artist, genre, album, url });
+
+            localStorage.setItem("rennUsers", JSON.stringify(allUsers));
+
+            form.reset();
+            feedback.innerText = "✅ Song added!";
+        });
+    </script>
+</body>
+
+</html>

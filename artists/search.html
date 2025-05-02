@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Artists</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .search-container {
+            padding: 20px;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .artist-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .artist-list li {
+            padding: 10px;
+            background-color: #fff;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .artist-list li:hover {
+            background-color: #ddd;
+        }
+
+        .track-result {
+            padding: 10px;
+            margin: 10px auto;
+            width: 90%;
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        audio {
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="search-container">
+        <h1>Search for Artists</h1>
+        <input type="text" id="artist-search" placeholder="Search for an artist..." onkeyup="searchArtists()">
+    </div>
+
+    <ul class="artist-list" id="artist-list">
+        <li><a href="artist/ethic-entertainment.html">Ethic Entertainment</a></li>
+        <li><a href="artist/sailors.html">Sailors</a></li>
+        <li><a href="artist/boondocks-gang.html">Boondocks Gang</a></li>
+        <li><a href="artist/roo.html">Roo</a></li>
+        <li><a href="artist/vera-sidika.html">Vera Sidika</a></li>
+    </ul>
+
+    <!-- Spotify Track Search Section -->
+    <div class="search-container">
+        <h2>Search Spotify Songs</h2>
+        <input type="text" id="song-search" placeholder="Search for a song...">
+        <button onclick="searchSpotify()">Search</button>
+    </div>
+
+    <div id="track-results" class="search-container"></div>
+
+    <script>
+        function searchArtists() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById('artist-search');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("artist-list");
+            li = ul.getElementsByTagName('li');
+
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+
+        async function searchSpotify() {
+            const query = document.getElementById('song-search').value;
+            const resultsDiv = document.getElementById('track-results');
+            resultsDiv.innerHTML = '';
+
+            if (!query) {
+                resultsDiv.innerHTML = '<p>Please enter a search term.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/search?q=${encodeURIComponent(query)}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+                    return;
+                }
+
+                if (data.length === 0) {
+                    resultsDiv.innerHTML = '<p>No results found.</p>';
+                    return;
+                }
+
+                data.forEach(track => {
+                    const div = document.createElement('div');
+                    div.className = 'track-result';
+                    div.innerHTML = `
+                        <strong>${track.name}</strong> by ${track.artist}<br>
+                        Album: ${track.album}<br>
+                        ${track.preview_url ? `<audio controls src="${track.preview_url}"></audio>` : '<em>No preview available</em>'}
+                    `;
+                    resultsDiv.appendChild(div);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                resultsDiv.innerHTML = '<p>Failed to load results. Make sure your backend server is running.</p>';
+            }
+        }
+    </script>
+
+</body>
+
+</html>

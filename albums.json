@@ -1,0 +1,232 @@
+[
+  {
+    "title": "The Eminem Show",
+    "artist": "Eminem",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/3/35/The_Eminem_Show.jpg"
+  },
+  {
+    "title": "Recovery",
+    "artist": "Eminem",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/6/60/Recovery_Album_Cover.jpg"
+  },
+  {
+    "title": "DAMN.",
+    "artist": "Kendrick Lamar",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/5/51/Kendrick_Lamar_-_Damn.png"
+  },
+  {
+    "title": "To Pimp a Butterfly",
+    "artist": "Kendrick Lamar",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/4/49/To_Pimp_a_Butterfly.jpg"
+  },
+  {
+    "title": "Lover",
+    "artist": "Taylor Swift",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/1/16/Taylor_Swift_-_Lover.png"
+  },
+  {
+    "title": "1989",
+    "artist": "Taylor Swift",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/a/a8/Taylor_Swift_-_1989.png"
+  },
+  {
+    "title": "Future Nostalgia",
+    "artist": "Dua Lipa",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/2/22/Dua_Lipa_-_Future_Nostalgia.png"
+  },
+  {
+    "title": "Fame",
+    "artist": "David Bowie",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/0/0b/David_Bowie_-_Fame.jpg"
+  },
+  {
+    "title": "The Dark Side of the Moon",
+    "artist": "Pink Floyd",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/3/3b/Pink_Floyd_-_The_Dark_Side_of_the_Moon.jpg"
+  },
+  {
+    "title": "Abbey Road",
+    "artist": "The Beatles",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg"
+  },
+  {
+    "title": "Led Zeppelin IV",
+    "artist": "Led Zeppelin",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/5/5a/Led_Zeppelin_IV.jpg"
+  },
+  {
+    "title": "Rumours",
+    "artist": "Fleetwood Mac",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/2/2f/Fleetwood_Mac_-_Rumours.png"
+  },
+  {
+    "title": "The Rolling Stones",
+    "artist": "The Rolling Stones",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/6/65/The_Rolling_Stones_-_The_Rolling_Stones.jpg"
+  },
+  {
+    "title": "Thriller",
+    "artist": "Michael Jackson",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/5/55/Michael_Jackson_Thriller.png"
+  },
+  {
+    "title": "Back in Black",
+    "artist": "AC/DC",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/a/ab/ACDC_Back_in_Black.png"
+  },
+  {
+    "title": "Born to Run",
+    "artist": "Bruce Springsteen",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/2/28/Bruce_Springsteen_Born_to_Run.png"
+  },
+  {
+    "title": "Hotel California",
+    "artist": "Eagles",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/a/a4/Eagles_Hotel_California.jpg"
+  },
+  {
+    "title": "The Wall",
+    "artist": "Pink Floyd",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/c/cb/Pink_Floyd_-_The_Wall.jpg"
+  },
+  {
+    "title": "The Joshua Tree",
+    "artist": "U2",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/c/cf/U2TheJoshuaTreealbum.jpg"
+  },
+  {
+    "title": "A Night at the Opera",
+    "artist": "Queen",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/0/0f/Queen_-_A_Night_at_the_Opera.png"
+  },
+  {
+    "title": "In the Air Tonight",
+    "artist": "Phil Collins",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/e/e9/Phil_Collins_-_In_the_Air_Tonight.jpg"
+  },
+  {
+    "title": "Back to Black",
+    "artist": "Amy Winehouse",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/3/3a/Amy_Winehouse_-_Back_to_Black.jpg"
+  },
+  {
+    "title": "Waking Up the Neighbors",
+    "artist": "Bryan Adams",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/6/69/Bryan_Adams_-_Waking_Up_the_Neighbours.jpg"
+  },
+  {
+    "title": "The Chronic",
+    "artist": "Dr. Dre",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/0/0b/Dr._Dre_-_The_Chronic.jpg"
+  },
+  {
+    "title": "Straight Outta Compton",
+    "artist": "N.W.A.",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/a/a0/N.W.A._-_Straight_Outta_Compton.jpg"
+  },
+  {
+    "title": "The College Dropout",
+    "artist": "Kanye West",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/2/2c/Kanye_West_-_The_College_Dropout.png"
+  },
+  {
+    "title": "My Beautiful Dark Twisted Fantasy",
+    "artist": "Kanye West",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/3/3f/Kanye_West_-_My_Beautiful_Dark_Twisted_Fantasy.png"
+  },
+  {
+    "title": "Good Kid, M.A.A.D City",
+    "artist": "Kendrick Lamar",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/0/0b/Kendrick_Lamar_-_Good_Kid_M.A.A.D_City.jpg"
+  },
+  {
+    "title": "Channel Orange",
+    "artist": "Frank Ocean",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/0/01/Frank_Ocean_-_Channel_Orange.jpg"
+  },
+  {
+    "title": "Blonde",
+    "artist": "Frank Ocean",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/c/c7/Frank_Ocean_-_Blonde.jpg"
+  },
+  {
+    "title": "24K Magic",
+    "artist": "Bruno Mars",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/2/2b/24K_Magic_%28album%29.jpg"
+  },
+  {
+    "title": "This Is What the Truth Feels Like",
+    "artist": "Gwen Stefani",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/a/a9/Gwen_Stefani_-_This_Is_What_the_Truth_Feels_Like.png"
+  },
+  {
+    "title": "All Over the World",
+    "artist": "ELO",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/9/96/Electric_Light_Orchestra_-_All_Over_the_World.jpg"
+  },
+  {
+    "title": "Thriller",
+    "artist": "Michael Jackson",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/5/55/Michael_Jackson_Thriller.png"
+  },
+  {
+    "title": "Red",
+    "artist": "Taylor Swift",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/d/d7/Taylor_Swift_-_Red.png"
+  },
+  {
+    "title": "Fearless",
+    "artist": "Taylor Swift",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/d/d2/Taylor_Swift_-_Fearless.png"
+  },
+  {
+    "title": "Views",
+    "artist": "Drake",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/6/66/Drake_-_Views.png"
+  },
+  {
+    "title": "The Life of Pablo",
+    "artist": "Kanye West",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/e/ec/Kanye_West_-_The_Life_of_Pablo.png"
+  },
+  {
+    "title": "Take Care",
+    "artist": "Drake",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/3/39/Drake_-_Take_Care.png"
+  },
+  {
+    "title": "After Hours",
+    "artist": "The Weeknd",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/0/0a/The_Weeknd_-_After_Hours.png"
+  },
+  {
+    "title": "Artpop",
+    "artist": "Lady Gaga",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/c/c8/Lady_Gaga_-_Artpop.png"
+  },
+  {
+    "title": "Born This Way",
+    "artist": "Lady Gaga",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/4/47/Lady_Gaga_-_Born_This_Way.png"
+  },
+  {
+    "title": "Born to Die",
+    "artist": "Lana Del Rey",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/e/e3/Lana_Del_Rey_-_Born_to_Die.png"
+  },
+  {
+    "title": "Lust for Life",
+    "artist": "Lana Del Rey",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/7/7a/Lana_Del_Rey_-_Lust_for_Life.png"
+  },
+  {
+    "title": "Melodrama",
+    "artist": "Lorde",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/c/c9/Lorde_-_Melodrama.png"
+  },
+  {
+    "title": "Solar Power",
+    "artist": "Lorde",
+    "cover": "https://upload.wikimedia.org/wikipedia/en/a/a7/Lorde_-_Solar_Power.png"
+  }
+]

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genres</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background-color: #f4f4f9;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-theme {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        .container {
+            background-color: #fff;
+            color: maroon;
+            border-radius: 20px;
+            padding: 2rem 3rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+            animation: fadeIn 0.6s ease-in-out;
+            transition: background-color 0.3s;
+        }
+
+        body.dark-theme .container {
+            background-color: #333;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        h1::after {
+            content: "";
+            width: 60px;
+            height: 4px;
+            background: maroon;
+            display: block;
+            margin: 0.5rem auto 0;
+            border-radius: 4px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        li {
+            color: white;
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        li:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .genre-content {
+            display: none;
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        .genre-content h2 {
+            color: maroon;
+        }
+
+        .genre-content p {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        #videoContainer iframe {
+            width: 100%;
+            height: 152px;
+            border: none;
+            margin-top: 1rem;
+            border-radius: 10px;
+        }
+
+        button {
+            margin-top: 1.5rem;
+            padding: 0.7rem 1.8rem;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: maroon;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #a00000;
+            transform: scale(1.05);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #000;
+            color: #fff;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        .theme-toggle.dark-theme {
+            background-color: #fff;
+            color: #000;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <div class="container" id="main-container">
+        <h1>Genres</h1>
+        <ul id="genreList"></ul>
+        <div class="genre-content" id="genreContent">
+            <h2 id="genreTitle"></h2>
+            <p id="genreDescription"></p>
+            <div id="videoContainer"></div>
+            <button onclick="goBack()">← Back to Genres</button>
+            <button class="favorite-button" onclick="toggleFavorite()">❤️ Add to Favorites</button>
+            <button class="add-to-playlist-button" onclick="addToPlaylist()">➕ Add to Playlist</button>
+            <button class="download-button" onclick="downloadSong()">⬇️ Download Song</button>
+        </div>
+        <div class="loading" id="loading">Loading...</div>
+    </div>
+
+    <script>
+        const apiKey = "YOUR_API_KEY"; // Replace with your API key
+        async function fetchGenres(artist) {
+            const url = `http://ws.audioscrobbler.com/2.0/?method=artist.getTopTags&api_key=${apiKey}&artist=${artist}&format=json`;
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log(data);  // Check the data
+            return data.topTags ? data.topTags.tag : [];
+        }
+
+        async function loadGenres() {
+            const genres = await fetchGenres("Coldplay");  // Example artist, replace as needed
+            const genreList = document.getElementById("genreList");
+            genres.forEach((genre) => {
+                const li = document.createElement("li");
+                li.textContent = genre.name;
+                li.addEventListener('click', () => showGenre(genre.name));
+                genreList.appendChild(li);
+            });
+        }
+
+        function showGenre(genre) {
+            document.querySelector("ul").style.display = "none";
+            document.querySelector("h1").style.display = "none";
+            document.getElementById("genreTitle").textContent = genre;
+            document.getElementById("genreDescription").textContent = `Information about ${genre}.`;
+            document.getElementById("videoContainer").innerHTML = `
+                <iframe style="border-radius:12px"
+                    src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M"
+                    width="100%" height="152" frameBorder="0"
+                    allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy">
+                </iframe>
+            `;
+            document.getElementById("genreContent").style.display = "block";
+        }
+
+        function goBack() {
+            document.querySelector("ul").style.display = "flex";
+            document.querySelector("h1").style.display = "block";
+            document.getElementById("genreContent").style.display = "none";
+        }
+
+        function toggleFavorite() { alert("Added to favorites!"); }
+        function addToPlaylist() { alert("Song added to playlist!"); }
+        function downloadSong() { alert("Downloading song..."); }
+
+        function toggleTheme() {
+            document.body.classList.toggle("dark-theme");
+            const themeButton = document.querySelector(".theme-toggle");
+            themeButton.classList.toggle("dark-theme");
+            const isDark = document.body.classList.contains("dark-theme");
+            themeButton.textContent = isDark ? "🌞" : "🌙";
+        }
+
+        window.onload = loadGenres;
+    </script>
+</bodysett

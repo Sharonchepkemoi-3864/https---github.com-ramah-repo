@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Featured Tracks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body.light {
+      background: #f4f4f4;
+      color: #000;
+    }
+
+    body.dark {
+      background: #121212;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .track-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .track-card:hover {
+      transform: scale(1.03);
+    }
+
+    .track-card img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .dark .track-card {
+      background: #1e1e1e;
+    }
+
+    .track-card button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border: none;
+      background: #1db954;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .track-card button:hover {
+      background: #17a74a;
+    }
+
+    .play-btn {
+      margin-top: 10px;
+      background: #0070f3;
+    }
+
+    .play-btn:hover {
+      background: #005ccc;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="light">
+  <div class="container">
+    <div class="controls">
+      <h1>Featured Songs</h1>
+      <button id="themeToggle">Toggle Theme</button>
+    </div>
+    <div id="trackList" class="track-grid"></div>
+  </div>
+
+  <script>
+    const trackList = document.getElementById('trackList');
+    const themeToggle = document.getElementById('themeToggle');
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      document.body.classList.toggle('light');
+    });
+
+    let currentAudio = null;
+
+    function renderTracks(tracks) {
+      trackList.innerHTML = '';  // Clear previous track list
+
+      tracks.forEach((track, index) => {
+        const div = document.createElement('div');
+        div.className = 'track-card';
+
+        const hasPreview = track.preview_url !== null;
+
+        div.innerHTML = `
+          <img src="${track.album_image}" alt="cover" />
+          <h4>${track.song_title}</h4>
+          <p>${track.artist_name}</p>
+          ${hasPreview ? `
+            <button class="play-btn" data-index="${index}">▶ Play Preview</button>
+            <audio id="audio-${index}" src="${track.preview_url}"></audio>
+          ` : `<p style="color: gray;">No preview available</p>`}
+          <button onclick="alert('Adding to playlist requires OAuth')">Add to Playlist</button>
+        `;
+
+        trackList.appendChild(div);
+      });
+
+      // Add event listeners to all play buttons
+      document.querySelectorAll('.play-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = btn.getAttribute('data-index');
+          const audio = document.getElementById(`audio-${index}`);
+
+          // Pause previous audio if playing
+          if (currentAudio && currentAudio !== audio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            const prevBtn = document.querySelector(`[data-index="${currentAudio.dataset.index}"]`);
+            if (prevBtn) prevBtn.textContent = '▶ Play Preview';
+          }
+
+          // Toggle play/pause
+          if (audio.paused) {
+            audio.play();
+            btn.textContent = '⏸ Pause';
+            currentAudio = audio;
+            audio.dataset.index = index;
+          } else {
+            audio.pause();
+            btn.textContent = '▶ Play Preview';
+            currentAudio = null;
+          }
+        });
+      });
+    }
+
+    // Fetch featured songs from the backend
+    fetch('http://localhost:3000/all-songs')
+      .then(res => res.json())
+      .then(tracks => {
+        renderTracks(tracks);  // Render songs onto the page
+      })
+      .catch(err => {
+        console.error('Track fetch error:', err);
+        trackList.innerHTML = '<p style="color:red;">Failed to load tracks. Please check your server.</p>';
+      });
+  </script>
+</body>
+
+</html>

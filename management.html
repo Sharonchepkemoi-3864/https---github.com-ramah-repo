@@ -1,0 +1,26 @@
+<section class="playlist-management">
+    <h2>Your Playlists</h2>
+    <button class="btn-primary" onclick="showCreatePlaylistModal()">Create New Playlist</button>
+    
+    <div class="playlist-grid">
+        <!-- Dynamically generated playlists -->
+        <div class="playlist-card">
+            <div class="playlist-cover"></div>
+            <h3>Playlist Name</h3>
+            <p>12 songs · 45 min</p>
+        </div>
+    </div>
+
+    <!-- Create Playlist Modal -->
+    <div id="playlistModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Create New Playlist</h3>
+            <input type="text" id="playlistName" placeholder="Playlist Name">
+            <div class="track-selection">
+                <!-- Song list for playlist creation -->
+            </div>
+            <button class="btn-primary" onclick="createPlaylist()">Create</button>
+        </div>
+    </div>
+</section>

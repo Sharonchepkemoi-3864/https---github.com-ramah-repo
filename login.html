@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Your Musical Journey Begins Here</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: black;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vw;
+            width: 100vh;
+            transform: rotate(90deg) translateY(-100%);
+            transform-origin: top left;
+            object-fit: contain;
+            z-index: -1;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 1rem 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        nav a {
+            color: #1DB954;
+            text-decoration: none;
+        }
+
+        .auth-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-box h2 {
+            margin-bottom: 1.5rem;
+            color: #2C3E50;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: #1DB954;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #169c46;
+        }
+
+        .divider {
+            margin: 1.5rem 0;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .signup-link {
+            display: block;
+            margin-top: 1rem;
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+
+        .forgot-link {
+            font-size: 14px;
+            color: #1DB954;
+            cursor: pointer;
+            display: block;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+            text-decoration: underline;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .close {
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="images/guitar1.jpg" alt="Background" id="bg-image" />
+
+    <header>
+        <div>Your Musical Journey Begins Here</div>
+        <nav><a href="#">Home</a></nav>
+    </header>
+
+    <main class="auth-container">
+        <div class="login-box">
+            <h2>Welcome to Rennah Music</h2>
+
+            <form id="loginForm">
+                <input type="email" id="email" name="email" placeholder="Email" required />
+                <input type="password" id="password" name="password" placeholder="Password" required />
+                <span class="forgot-link" onclick="openModal()">Forgot Password?</span>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+
+            <div class="divider">or</div>
+
+            <a href="signup.html" class="signup-link">Don't have an account? Sign up</a>
+        </div>
+    </main>
+
+    <!-- Password Reset Modal -->
+    <div id="forgotModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Reset Password</h3>
+            <form id="resetForm">
+                <input type="email" id="resetEmail" placeholder="Enter your email" required />
+                <button type="submit" class="btn-primary">Send Reset Link</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        localStorage.setItem('userEmail', email);
+                        localStorage.setItem('isLoggedIn', 'true');
+                        alert('Login successful!');
+                        window.location.href = 'index.html';
+                    } else {
+                        alert('Invalid credentials: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Login failed. Try again later.');
+                });
+        });
+
+        // Forgot Password Modal Logic
+        function openModal() {
+            document.getElementById('forgotModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('forgotModal').style.display = 'none';
+        }
+
+        document.getElementById('resetForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const resetEmail = document.getElementById('resetEmail').value;
+
+            // Replace with your actual reset API endpoint
+            fetch('http://localhost:3000/reset-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: resetEmail }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message || 'If this email is registered, a reset link has been sent.');
+                    closeModal();
+                })
+                .catch(error => {
+                    console.error('Reset error:', error);
+                    alert('Something went wrong. Please try again.');
+                });
+        });
+        const bcrypt = require('bcryptjs');
+
+            // Login Route
+            app.post('/login', (req, res) => {
+                const { email, password } = req.body;
+
+                // Find the user by email
+                const query = 'SELECT * FROM users WHERE email = ?';
+                db.query(query, [email], (err, result) => {
+                    if (err) {
+                        console.error('Error during login:', err);
+                        return res.status(500).send('Login failed. Try again later.');
+                    }
+
+                    if (result.length === 0) {
+                        return res.status(400).send('Invalid email or password.');
+                    }
+
+                    // Compare the entered password with the stored hashed password
+                    bcrypt.compare(password, result[0].password, (err, isMatch) => {
+                        if (err) {
+                            console.error('Error comparing passwords:', err);
+                            return res.status(500).send('Login failed. Try again later.');
+                        }
+
+                        if (isMatch) {
+                            // If the password matches, login successful
+                            res.status(200).send({ success: true, message: 'Login successful!' });
+                        } else {
+                            // If the password doesn't match
+                            res.status(400).send({ success: false, message: 'Invalid email or password.' });
+                        }
+                    });
+                });
+            });
+
+    </script>
+</body>
+
+</html>

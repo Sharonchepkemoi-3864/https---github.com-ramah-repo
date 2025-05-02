@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spotify Favorites</title>
+    <style>
+        body {
+            background: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: #1db954;
+            color: #fff;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .music-card {
+            background-color: #222;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        iframe {
+            margin-top: 10px;
+            width: 100%;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🎵 Spotify Music Search & Favorites</h1>
+
+    <input type="text" id="searchInput" placeholder="Search for songs..." />
+    <button onclick="searchSongs()">Search</button>
+
+    <h2>Results</h2>
+    <div id="songsList"></div>
+
+    <h2>❤️ Favorites</h2>
+    <div id="favoritesContainer">Loading...</div>
+
+    <script>
+        const favoritesContainer = document.getElementById("favoritesContainer");
+
+        // Utility functions for getting and saving user data
+        function getUserData() {
+            const raw = localStorage.getItem("rennUserData");
+            return JSON.parse(raw || "{}");
+        }
+
+        function saveUserData(data) {
+            localStorage.setItem("rennUserData", JSON.stringify(data));
+        }
+
+        // Add song to favorites
+        function addToFavorites(id, title, artist, embedUrl) {
+            const data = getUserData();
+            data.favorites = data.favorites || [];
+
+            if (!data.favorites.find(song => song.id === id)) {
+                data.favorites.push({ id, title, artist, embedUrl });
+                saveUserData(data);
+                renderFavorites();
+            } else {
+                alert("Already in favorites");
+            }
+        }
+
+        // Remove song from favorites
+        function removeFavorite(index) {
+            const data = getUserData();
+            data.favorites.splice(index, 1);
+            saveUserData(data);
+            renderFavorites();
+        }
+
+        // Render favorite songs
+        function renderFavorites() {
+            const data = getUserData();
+            const favorites = data.favorites || [];
+            favoritesContainer.innerHTML = "";
+
+            if (favorites.length === 0) {
+                favoritesContainer.innerHTML = "<p>No favorites yet.</p>";
+                return;
+            }
+
+            favorites.forEach((song, index) => {
+                const div = document.createElement("div");
+                div.className = "music-card";
+                div.innerHTML = `
+          <h3>${song.title}</h3>
+          <p>${song.artist}</p>
+          <iframe src="${song.embedUrl}" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          <br>
+          <button onclick="removeFavorite(${index})">💔 Remove</button>
+        `;
+                favoritesContainer.appendChild(div);
+            });
+        }
+
+        // Get Spotify access token (dummy token for demonstration)
+        async function getSpotifyToken() {
+            // Replace this with real token handling (OAuth or client credentials)
+            return "YOUR_SPOTIFY_ACCESS_TOKEN"; // ← Replace with your actual token
+        }
+
+        // Search songs from Spotify API
+        async function searchSongs() {
+            const query = document.getElementById("searchInput").value.trim();
+            if (!query) return alert("Please enter a search term");
+
+            try {
+                const token = await getSpotifyToken();
+                const res = await fetch(
+                    `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=10`,
+                    {
+                        headers: {
+                            Authorization: "Bearer " + token,
+                        },
+                    }
+                );
+
+                if (!res.ok) {
+                    alert("Error fetching data from Spotify API.");
+                    return;
+                }
+
+                const data = await res.json();
+                displaySongs(data.tracks.items);
+            } catch (error) {
+                console.error("Error occurred during API request:", error);
+                alert("Something went wrong while fetching songs.");
+            }
+        }
+
+        // Display songs in the results section
+        function displaySongs(tracks) {
+            const container = document.getElementById("songsList");
+            container.innerHTML = "";
+
+            if (!tracks || tracks.length === 0) {
+                container.innerHTML = "<p>No songs found. Please try again.</p>";
+                return;
+            }
+
+            tracks.forEach((track) => {
+                const div = document.createElement("div");
+                div.className = "music-card";
+
+                const embedUrl = `https://open.spotify.com/embed/track/${track.id}`;
+
+                div.innerHTML = `
+          <h3>${track.name}</h3>
+          <p>${track.artists.map((a) => a.name).join(", ")}</p>
+          <iframe src="${embedUrl}" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          <br>
+          <button onclick="addToFavorites('${track.id}', '${track.name.replace(/'/g, "\\'")}', '${track.artists[0].name.replace(/'/g, "\\'")}', '${embedUrl}')">
+            ➕ Add to Favorites
+          </button>
+        `;
+
+                container.appendChild(div);
+            });
+        }
+
+        // Load favorites on page load
+        window.addEventListener("DOMContentLoaded", renderFavorites);
+    </script>
+
+</body>
+
+</html>
